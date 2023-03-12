@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NI-AM2 HW02</title>
+    <script>
+    let lastStatus;
+
+    // Changes text
+    function setInfoText(text){
+        if (lastStatus === text) return;
+        lastStatus = text;
+        let element = document.getElementById("info");
+        element.innerText = text;
+        console.log(text);
+    }
+
+    // Called when button is clicked. Awaits request function.
+    async function onClickEvent(){
+        let result = await makeRequest('https://speed.hetzner.de/100MB.bin');
+        if (result) {
+            setInfoText('Download - OK');
+        } else {
+            setInfoText('Download - ERROR');
+        }
+    }
+
+    // Creates Promise which returns true or false depending on the download sucess.
+    function makeRequest(url) {
+        return new Promise(resolve => {
+            let httpRequest = new XMLHttpRequest();
+
+
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === 3) {
+                    setInfoText('Downloading...');
+                }
+            }
+
+            httpRequest.onload = (_) => {
+                resolve(true);
+            }
+
+            httpRequest.onerror = (ev) => {
+                console.log('ERROR', ev);
+                resolve(false);
+            }
+
+            httpRequest.onabort = (ev) => {
+                console.log('ABORT', ev);
+                resolve(false);
+            };
+
+            httpRequest.ontimeout = (_) => {
+                resolve(false);
+            };
+
+            httpRequest.open('GET', url, true);
+            setInfoText('LOADING..');
+            httpRequest.send();
+            setInfoText('LOADED');
+        });
+    }
+
+
+    </script>
+</head>
+<body>
+<button onclick="onClickEvent()">Download</button>
+<div id="info"></div>
+</body>
+</html>
