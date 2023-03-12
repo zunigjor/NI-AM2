@@ -1,1 +1,3 @@
-= HW1 - TBD!
+= HW1
+
+Created two simple servers.
