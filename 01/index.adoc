@@ -1,3 +1,5 @@
 = HW1
 
 Created two simple servers.
+
+include::results/results.md[]
