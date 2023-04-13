@@ -1,5 +1,8 @@
-= HW4
+= HW4 - Docker advanced
 
+https://courses.fit.cvut.cz/NI-AM2/hw/04/index.html
+
+'''
 * Příkazem `docker run -p 8881:6379 --hostname am2-redis -d --name am2-redis redis` jsem vytvořil kontejner se jménem am2-redis.
 ** Příkazem `docker run -it --link am2-redis:redis --name am2-redis-client redis sh` jsem spustil klienta,
 kterého jsem přepínačem `--link` propojil k vytvořenému am2-redis kontejneru.

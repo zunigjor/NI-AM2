@@ -1,12 +1,18 @@
-= HW2
+= HW2 - AJAX and XHR states
+
+https://courses.fit.cvut.cz/NI-AM2/hw/02/index.html
+
+'''
 
 Simple XHR file download.
 Outputs download stages into the console and displays text when finished downloading.
 
-Success
+'''
+
+==== Success
 
 image::results/success.png[]
 
-Error
+==== Error
 
 image::results/error.png[]

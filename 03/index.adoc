@@ -1,4 +1,8 @@
-= HW3
+= HW3 - Node.js server in Docker
+
+https://courses.fit.cvut.cz/NI-AM2/hw/03/index.html
+
+'''
 
 * Naimplementoval jsem jednoduchý Hello server v souboru `src/server.js`.
 * V souboru `Dockerfile` jsem definoval image, která spouští tento server.

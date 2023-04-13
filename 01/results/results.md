@@ -1,4 +1,4 @@
-# Stateful
+## Stateful
 * open
 * add <item_id>
 * process
@@ -34,7 +34,7 @@ order contains items: 1, 2 and is: processed
 ```
 
 
-# Stateless
+## Stateless
 * open <order_id>
 * add <order_id> <item_id>
 * process <order_id>
