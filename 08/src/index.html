@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>NI-AM2 - HW08 - OAuth - Browser-Based App - zunigjor</title>
+    <script>
+        const CLIENT_ID = '891731139374-9764fhku53qiitijecg98i2kmjk9nhs7.apps.googleusercontent.com';
+        const CLIENT_SECRET = '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';
+        const REDIRECT_URI = 'https://localhost:8888/callback';
+        const OAUTH2_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth';
+        const SCOPE = 'https://www.googleapis.com/auth/contacts.readonly';
+
+        console.log(window.location.pathname);
+
+        function buttonClickCallback() {
+            console.log("Login button pressed")
+            window.location.replace(`${OAUTH2_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}&include_granted_scopes=true&state=pass-troughvalue`);
+        }
+
+        function addContactParagraph(name, number) {
+            var node = document.createElement("p");
+            var textnode = document.createTextNode(`${name}: ${number}`);
+            node.appendChild(textnode);
+            document.getElementById("contacts").appendChild(node);
+        }
+
+        function processCallback(token) {
+            console.log(token);
+            console.log("Fetching contacts...")
+            fetch('https://people.googleapis.com/v1/people/me/connections?personFields=names,phoneNumbers&pageSize=1000', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data.connections.map(contact => {
+                        if (contact.hasOwnProperty('names') && contact.hasOwnProperty('phoneNumbers')) {
+                            console.log(contact.phoneNumbers[0].canonicalForm)
+                            if (contact.phoneNumbers[0].canonicalForm){
+                                addContactParagraph(contact.names[0].displayName, contact.phoneNumbers[0].canonicalForm);
+                            }
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        if (window.location.pathname === '/callback') {
+            // Parse url paramaters.
+            console.log("Login SUCCESS")
+            const queryString = window.location.hash;
+            const urlParams = new URLSearchParams(queryString);
+            if (urlParams.has('access_token')) {
+                processCallback(urlParams.get('access_token'));
+            };
+        }
+    </script>
+</head>
+<body>
+
+<button onclick="buttonClickCallback()">Google login</button>
+
+<h2>Contacts:</h2>
+
+<div id="contacts">
+
+</div>
+</body>
+</html>
